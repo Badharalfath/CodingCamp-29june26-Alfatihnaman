@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- GREETING -->
+  <section class="greeting-section" id="greeting-section">
+    <div class="greeting-text" id="greeting-text"></div>
+    <div class="greeting-sub" id="greeting-sub"></div>
+    <div class="greeting-date" id="greeting-date"></div>
+  </section>
+
+  <!-- DASHBOARD: Timer + Quick Links -->
+  <div class="dashboard-row">
+
+    <!-- FOCUS TIMER -->
+    <div class="dash-card">
+      <div class="dash-card-title">Focus Timer</div>
+      <div class="timer-body">
+        <div class="timer-ring-wrap">
+          <svg viewBox="0 0 100 100">
+            <circle class="timer-track" cx="50" cy="50" r="42"/>
+            <circle class="timer-progress" id="timer-progress" cx="50" cy="50" r="42"
+              stroke-dasharray="263.89" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-display" id="timer-display">25:00</div>
+        </div>
+        <div class="timer-presets" id="timer-presets">
+          <button class="timer-preset active" data-minutes="25">25m</button>
+          <button class="timer-preset" data-minutes="15">15m</button>
+          <button class="timer-preset" data-minutes="5">5m</button>
+          <button class="timer-preset" data-minutes="50">50m</button>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn primary" id="timer-start">Start</button>
+          <button class="timer-btn danger" id="timer-reset">Reset</button>
+        </div>
+        <div class="timer-status" id="timer-status">Ready</div>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="dash-card">
+      <div class="dash-card-title">Quick Links</div>
+      <div class="links-list" id="links-list"></div>
+      <div class="link-add-row">
+        <input type="text" class="link-add-input" id="link-url-input" placeholder="Paste URL..." autocomplete="off">
+        <button class="link-add-btn" id="link-add-btn">Add</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h1>Tasks</h1>
+      <span class="task-count" id="task-count"></span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" id="export-btn" aria-label="Export tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-label">Total</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-value" id="stat-done">0</div>
+      <div class="stat-label">Done</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-pending">0</div>
+      <div class="stat-label">Pending</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="pending">Pending</button>
+    <button class="filter-btn" data-filter="done">Done</button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-area">
+    <div class="input-wrapper">
+      <input type="text" class="task-input" id="task-input" placeholder="What needs to be done?" autocomplete="off" maxlength="200">
+      <button class="add-btn" id="add-btn">Add</button>
+    </div>
+    <div class="priority-row">
+      <span class="priority-label">Priority:</span>
+      <button class="priority-btn active" data-priority="none">None</button>
+      <button class="priority-btn" data-priority="low">Low</button>
+      <button class="priority-btn" data-priority="medium">Med</button>
+      <button class="priority-btn" data-priority="high">High</button>
+    </div>
+  </div>
+
+  <!-- TASK LIST -->
+  <div class="task-list" id="task-list"></div>
+
+  <!-- CLEAR DONE -->
+  <div class="clear-done-wrapper">
+    <button class="clear-done-btn hidden" id="clear-done-btn">Clear completed</button>
+  </div>
+
+</div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>
