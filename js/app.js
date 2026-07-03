@@ -365,6 +365,13 @@ function addTask() {
 
   const tasks = getTasks();
 
+  // Prevent duplicate tasks
+  const isDuplicate = tasks.some(t => t.text.toLowerCase() === text.toLowerCase());
+  if (isDuplicate) {
+    alert('Task already exists!');
+    return;
+  }
+
   tasks.push({
     id: generateId(),
     text,
@@ -406,27 +413,7 @@ function clearCompleted() {
   render();
 }
 
-/* ============================================
-   EXPORT
-   ============================================ */
-function exportTasks() {
-  const tasks = getTasks();
-  if (tasks.length === 0) return;
 
-  const lines = tasks.map(t => {
-    const check = t.done ? '[x]' : '[ ]';
-    const pri = t.priority && t.priority !== 'none' ? ` (${t.priority})` : '';
-    return `${check} ${t.text}${pri}`;
-  });
-
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `tasks-${new Date().toISOString().slice(0, 10)}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 /* ============================================
    UTILITIES
@@ -498,8 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clear completed
   document.getElementById('clear-done-btn').addEventListener('click', clearCompleted);
 
-  // Export
-  document.getElementById('export-btn').addEventListener('click', exportTasks);
 
   // Timer controls
   document.getElementById('timer-start').addEventListener('click', () => {
@@ -515,6 +500,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('.timer-preset');
     if (!btn) return;
     setTimerPreset(parseInt(btn.dataset.minutes));
+  });
+
+  // Interactive Timer Display
+  const timerDisplay = document.getElementById('timer-display');
+  const timerRing = document.querySelector('.timer-ring-wrap');
+  
+  timerDisplay.title = 'Click to edit time';
+  timerRing.title = 'Click to start/pause timer';
+
+  // Click on ring to start/pause
+  timerRing.addEventListener('click', (e) => {
+    if (e.target === timerDisplay) return;
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+    startTimer();
+  });
+
+  // Click on display to edit
+  timerDisplay.addEventListener('click', () => {
+    if (timerRunning) return;
+    timerDisplay.contentEditable = true;
+    timerDisplay.focus();
+    document.execCommand('selectAll', false, null);
+  });
+
+  timerDisplay.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      timerDisplay.blur();
+    }
+  });
+
+  timerDisplay.addEventListener('blur', () => {
+    timerDisplay.contentEditable = false;
+    const val = parseInt(timerDisplay.textContent.replace(/[^0-9]/g, ''));
+    if (!isNaN(val) && val > 0 && val <= 999) {
+      setTimerPreset(val);
+      document.querySelectorAll('.timer-preset').forEach(b => b.classList.remove('active'));
+    } else {
+      updateTimerDisplay(); // revert
+    }
   });
 
   // Quick links

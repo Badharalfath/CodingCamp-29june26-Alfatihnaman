@@ -916,3 +916,27 @@ body {
   .task-meta { display: none; }
   .task-delete { opacity: 1; }
 }
+
+/* ============================================
+   INTERACTIVE TIMER
+   ============================================ */
+.timer-ring-wrap {
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+.timer-ring-wrap:active {
+  transform: scale(0.96);
+}
+#timer-display {
+  cursor: text;
+  outline: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+#timer-display:hover {
+  color: var(--primary);
+}
+#timer-display:focus {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
